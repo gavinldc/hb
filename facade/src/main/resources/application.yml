@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: hb-facade
+
+server:
+  port: 8080
+
+
+  
