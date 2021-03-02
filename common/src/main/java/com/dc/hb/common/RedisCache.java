@@ -45,6 +45,17 @@ public class RedisCache {
 	}
 	
 	/**
+	 * 设置过期
+	 * @param key
+	 * @param time 秒
+	 */
+	public static void expire(String key,Long time) {
+		
+	}
+	
+	
+	
+	/**
 	 * 判断key是否存在
 	 * @param key
 	 * @return

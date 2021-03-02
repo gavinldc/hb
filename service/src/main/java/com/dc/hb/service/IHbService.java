@@ -26,4 +26,9 @@ public interface IHbService {
 	 * @param dto
 	 */
 	public UserGrabHbRespDTO grabHb(UserGrabHbReqDTO dto);
+	
+	/**
+	 * 红包回收
+	 */
+	public void returnHb();
 }

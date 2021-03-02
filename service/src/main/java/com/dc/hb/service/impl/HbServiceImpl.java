@@ -1,6 +1,7 @@
 package com.dc.hb.service.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,13 +83,15 @@ public class HbServiceImpl implements IHbService {
 		long temp = dto.getMoney();
 		// 红包的金额从1分到平均数的随即数
 		// 处理后放入缓存
+		String key = "hb.split.".concat(hbId.toString());
 		for (int i = 0; i < dto.getNum(); i++) {
 			Long m = temp / (dto.getNum() - i);
 			long ran = new Random().nextInt(m.intValue()) + 1;
 			temp = temp - ran;
-			RedisCache.lpush("hb.split.".concat(hbId.toString()), ran);
+			RedisCache.lpush(key, ran);
 		}
-
+        //设置过期时间
+		RedisCache.expire(key, 24*60*60l);
 	}
 
 	@Override
@@ -155,6 +158,33 @@ public class HbServiceImpl implements IHbService {
 		}
 		RedisCache.setAndExpire(key, 1, 24 * 60 * 60l);
 		return false;
+	}
+
+	@Override
+	public void returnHb() {
+		
+		List<HbInfo> list = hbRepository.findExpireHb();
+		if(list!=null&&list.size()>0) {
+			list.forEach(ll->{returnHbTranc(ll);});
+		}
+	}
+	
+	
+	
+	/**
+	 * 红包回收事务处理
+	 * @param hb
+	 */
+	//@Transaction(rollback=Exception.class)
+	private void returnHbTranc(HbInfo hb) {
+		hb.setState(2);
+		hb.setReturnTime(new Date());
+		hbRepository.update(hb);
+		
+		//账变
+		accountClient.accountEvent(hb.getUserId(), hb.getCurrentMoney(), 0, new Date());
+		
+		//TODO 异步通知金额返回
 	}
 
 }

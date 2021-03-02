@@ -1,5 +1,7 @@
 package com.dc.hb.domain.repository.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.dc.hb.common.IdGenerator;
@@ -19,6 +21,12 @@ public class HbRepositoryImpl implements IHbRepository{
 	public void update(HbInfo hbInfo) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<HbInfo> findExpireHb() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

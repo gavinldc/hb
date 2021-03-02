@@ -1,5 +1,7 @@
 package com.dc.hb.domain.repository;
 
+import java.util.List;
+
 import com.dc.hb.domain.repository.entity.HbInfo;
 
 /*
@@ -24,5 +26,10 @@ public interface IHbRepository {
 	 * @param hbInfo
 	 */
 	public void update(HbInfo hbInfo);
+	
+	/**
+	 * 获取过期红包，每次100条
+	 */
+	public List<HbInfo> findExpireHb();
 	
 }
