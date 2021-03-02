@@ -33,3 +33,5 @@ service：业务逻辑层
 common：通用层   
 facade：对外接口层，http，socket，websocket等方式提供给外部的调用   
 im：长连接推送   
+### 测试
+用例见：facade 下面 HbControllerTest.java
